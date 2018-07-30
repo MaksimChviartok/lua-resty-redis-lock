@@ -105,7 +105,7 @@ function try_lock(self)
         self.id = nil
     end
 
-    return self.id
+    return self.id, err
 end
 
 --- try to obtain the lock. Retry until lock is obtained or after a certain number of retries
