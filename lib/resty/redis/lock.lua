@@ -78,6 +78,13 @@ local function call_script(self, script_name, ...)
     end
 
     local ans, err = redis:evalsha(sha1, 1, self.key, self.id, ...)
+    
+    if not ans then
+        if err:sub(1, 8) == "NOSCRIPT" then
+            ans, err = redis:eval(script.script, 1, self.key, self.id, ...)
+        end
+    end
+    
     if not ans then
         return nil, err
     end
